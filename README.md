@@ -12,10 +12,9 @@ cd backend
 npm install
 
 # Create .env file and add your credentials and configuration. 
-# Example:
 PORT=5000
 NODE_ENV=development
-AWS_REGION=us-west-1
+AWS_REGION=us-west-2
 # Add your AWS credentials if needed
 # AWS_ACCESS_KEY_ID=
 # AWS_SECRET_ACCESS_KEY=
