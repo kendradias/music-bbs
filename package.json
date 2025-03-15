@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "e2e": "concurrently \"npm run backend --prefix backend\" \"npm run frontend --prefix frontend\"",
-    "test:db": "node -e \"require('./backend/utils/helper').testDynamoDBConnection()\""
+    "test:db": "node -e \"require('./backend/utils/helper').testDynamoDBConnection()\"",
+    "test:models": "node backend/testModels.js"
   },
   "repository": {
     "type": "git",
