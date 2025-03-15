@@ -69,7 +69,7 @@ AWS_REGION=us-west-2
 npm install
 ```
 
-## B. How to set up
+## B. How to run dev env
 
 ### execute backend for dev
 
