@@ -64,4 +64,7 @@ AWS_REGION=us-west-2
 
 ### 6. install dependencies for frontend
 
-`npm install`
+```
+npm install
+npm install react react-dom
+```
