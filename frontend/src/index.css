@@ -1,0 +1,13 @@
+/* box-sizing reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #f8f9fa;
+  font-family: Arial, sans-serif;
+  color: #212529;
+}
