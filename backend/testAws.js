@@ -9,7 +9,7 @@ console.log('AWS_SECRET_ACCESS_KEY:', process.env.AWS_SECRET_ACCESS_KEY ? 'Set (
 
 // Explicitly configure AWS
 AWS.config.update({
-  region: 'us-east-1', // Hardcoding region for test
+  region: 'us-west-2', // Hardcoding region for test
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
