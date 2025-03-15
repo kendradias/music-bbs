@@ -3,13 +3,14 @@
 # music-bbs
 Music Bulletin Board System - Cloud Group Project 1
 
-## How to set up
+## A. How to set up
 
-### 1. clone the repo
+### 1. clone the repo and install dependencies for root
 
 ```
 git clone [your-repo-url]
 cd music-bbs
+npm install
 ```
 
 ### 2. Navigate to backend Directory
@@ -66,5 +67,24 @@ AWS_REGION=us-west-2
 
 ```
 npm install
-npm install react react-dom
+```
+
+## B. How to set up
+
+### execute backend for dev
+
+```
+npm run backend
+```
+
+### execute frontend for dev
+
+```
+npm run frontend
+```
+
+### execute end-to-end
+
+```
+npm run e2e
 ```
