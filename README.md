@@ -10,6 +10,8 @@ cd backend
 
 # install dependencies 
 npm install
+npm install express cors dotenv morgan aws-sdk axios
+npm install --save-dev nodemon
 
 # Create .env file and add your credentials and configuration. 
 PORT=5000
@@ -41,3 +43,9 @@ AWS_REGION=us-west-2
     "nodemon": "^2.0.15"
   }
 }
+
+# Navigate to frontend Directory
+cd /path/to/frontend
+
+# install dependencies 
+npm install
