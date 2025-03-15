@@ -1,19 +1,28 @@
 # music-bbs
 Music Bulletin Board System - Cloud Group Project 1
 
-# Step 1
+# Step 1\
+
+```
 git clone [your-repo-url]
 cd music-bbs
+```
 
 # Navigate to backend Directory
-cd backend
+
+`cd /path/to/backend`
 
 # install dependencies 
+
+```
 npm install
 npm install express cors dotenv morgan aws-sdk axios
 npm install --save-dev nodemon
+```
 
 # Create .env file and add your credentials and configuration. 
+
+```
 PORT=5000
 NODE_ENV=development
 AWS_REGION=us-west-2
@@ -43,9 +52,12 @@ AWS_REGION=us-west-2
     "nodemon": "^2.0.15"
   }
 }
+```
 
 # Navigate to frontend Directory
-cd /path/to/frontend
+
+`cd /path/to/frontend`
 
 # install dependencies 
-npm install
+
+`npm install`
