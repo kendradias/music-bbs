@@ -1,6 +1,6 @@
 // testAws.js
-require('dotenv').config();
-const AWS = require('aws-sdk');
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 console.log('Environment variables:');
 console.log('AWS_REGION:', process.env.AWS_REGION);
@@ -9,7 +9,7 @@ console.log('AWS_SECRET_ACCESS_KEY:', process.env.AWS_SECRET_ACCESS_KEY ? 'Set (
 
 // Explicitly configure AWS
 AWS.config.update({
-  region: 'us-west-2', // Hardcoding region for test
+  region: process.env.AWS_REGION || 'us-west-2', 
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
