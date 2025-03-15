@@ -74,17 +74,20 @@ npm install
 ### execute backend for dev
 
 ```
+cd /path/to/backend
 npm run backend
 ```
 
 ### execute frontend for dev
 
 ```
+cd /path/to/frontend
 npm run frontend
 ```
 
 ### execute end-to-end
 
 ```
+cd /path/to/projectroot
 npm run e2e
 ```
