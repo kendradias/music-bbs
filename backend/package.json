@@ -1,0 +1,12 @@
+{
+  "name": "music-bbs-backend",
+  "version": "1.0.0",
+  "description": "Backend for Music BBS application",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {}
+}
