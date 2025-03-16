@@ -60,11 +60,10 @@ DYNAMODB_COMMENTS_TABLE=music-bbs-comments
    - Primary key: `threadId` (String)
    - Sort key: `commentId` (String)
 
-### 6. Test AWS Connection and Models
+### 6. Test AWS Connection and Models NOTE: I have configured both package.json files so you should be able to run these commands from either the root directory or the backend directory
 npm run test:db      # Tests your AWS connection
-npm run test:models  # Tests the DynamoDB models
-npm run test:env     # Tests environment variable loading (run: node backend/testEnv.js)
-npm run test:aws     # Tests AWS configuration (run: node backend/testAws.js)
+npm run test:models  # Tests the DynamoDB models and CRUD operations
+npm run test:env     # Tests environment variable loading
 
 
 ### 7. Navigate to frontend Directory
@@ -104,9 +103,8 @@ npm run e2e
 
 The project includes several test files to verify functionality:
 
-- `backend/utils/helper.js`: Contains the `testDynamoDBConnection()` function
+- `backend/utils/helper.js`: Contains the `testDynamoDBConnection()` function that checks connection to AWS DynamoDb
 - `backend/testModels.js`: Tests CRUD operations for threads and comments
 - `backend/testEnv.js`: Tests environment variable loading
-- `backend/testAws.js`: Tests AWS configuration and connectivity
 
 These test files are useful during development but not needed for production deployment.
