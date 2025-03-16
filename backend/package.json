@@ -1,12 +1,29 @@
 {
-  "name": "music-bbs-backend",
+  "name": "backend",
   "version": "1.0.0",
-  "description": "Backend for Music BBS application",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "backend": "nodemon server.js",
+    "test:db": "node -e \"require('./utils/helper').testDynamoDBConnection()\"",
+    "test:models": "node utils/testModels.js",
+    "test:env": "node utils/testEnv.js"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {}
+  "description": "",
+  "dependencies": {
+    "aws-sdk": "^2.1692.0",
+    "axios": "^1.8.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "morgan": "^1.10.0",
+    "node": "^20.19.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
 }

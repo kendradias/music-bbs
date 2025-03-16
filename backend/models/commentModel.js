@@ -1,21 +1,21 @@
-// models/threadModel.js
+// models/commentModel.js
 const { documentClient } = require('../config/dynamodb');
 const { v4: uuidv4 } = require('uuid');
 
-const TABLE_NAME = process.env.DYNAMODB_THREADS_TABLE || 'music-bbs-threads';
+const TABLE_NAME = process.env.DYNAMODB_COMMENTS_TABLE || 'music-bbs-comments';
 
-const ThreadModel = {
-  // Create a new thread
-  async createThread({ songName, songQueryUrl, handleName }) {
-    const threadId = uuidv4();
+const CommentModel = {
+  // Create a new comment
+  async createComment({ threadId, content, handleName }) {
+    const commentId = uuidv4();
     const timestamp = new Date().toISOString();
     
     const params = {
       TableName: TABLE_NAME,
       Item: {
+        commentId,
         threadId,
-        songName,
-        songQueryUrl,
+        content,
         handleName,
         createdAt: timestamp,
         updatedAt: timestamp,
@@ -27,26 +27,29 @@ const ThreadModel = {
     return params.Item;
   },
   
-  // Get all threads
-  async getAllThreads() {
+  // Get all comments for a thread
+  async getCommentsByThreadId(threadId) {
     const params = {
       TableName: TABLE_NAME,
+      KeyConditionExpression: "threadId = :threadId",
       FilterExpression: "deletedAt = :null",
       ExpressionAttributeValues: {
+        ":threadId": threadId,
         ":null": null
       }
     };
     
-    const result = await documentClient.scan(params).promise();
+    const result = await documentClient.query(params).promise();
     return result.Items;
   },
   
-  // Get thread by ID
-  async getThreadById(threadId) {
+  // Get a specific comment
+  async getComment(threadId, commentId) {
     const params = {
       TableName: TABLE_NAME,
       Key: {
-        threadId
+        threadId,
+        commentId
       }
     };
     
@@ -54,8 +57,8 @@ const ThreadModel = {
     return result.Item;
   },
   
-  // Update thread
-  async updateThread(threadId, updates) {
+  // Update a comment
+  async updateComment(threadId, commentId, updates) {
     // Build update expression
     let updateExpression = "set updatedAt = :updatedAt";
     const expressionAttributeValues = {
@@ -70,7 +73,10 @@ const ThreadModel = {
     
     const params = {
       TableName: TABLE_NAME,
-      Key: { threadId },
+      Key: { 
+        threadId,
+        commentId 
+      },
       UpdateExpression: updateExpression,
       ExpressionAttributeValues: expressionAttributeValues,
       ReturnValues: "ALL_NEW"
@@ -80,12 +86,12 @@ const ThreadModel = {
     return result.Attributes;
   },
   
-  // Soft delete thread
-  async deleteThread(threadId) {
-    return this.updateThread(threadId, {
+  // Soft delete comment
+  async deleteComment(threadId, commentId) {
+    return this.updateComment(threadId, commentId, {
       deletedAt: new Date().toISOString()
     });
   }
 };
 
-module.exports = ThreadModel;
+module.exports = CommentModel;
