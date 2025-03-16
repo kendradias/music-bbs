@@ -1,8 +1,14 @@
 // testModels.js
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '.env') });
-const ThreadModel = require('./models/threadModel');
-const CommentModel = require('./models/commentModel');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+
+//debugging section
+console.log('Environment check in testModels:');
+console.log('AWS_REGION:', process.env.AWS_REGION);
+console.log('AWS_ACCESS_KEY_ID:', process.env.AWS_ACCESS_KEY_ID ? 'Set (hidden)' : 'Not set');
+
+const ThreadModel = require('../models/threadModel');
+const CommentModel = require('../models/commentModel');
 
 // Test function to run all tests
 async function runTests() {

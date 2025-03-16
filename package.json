@@ -7,9 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "e2e": "concurrently \"npm run backend --prefix backend\" \"npm run frontend --prefix frontend\"",
     "test:db": "node -e \"require('./backend/utils/helper').testDynamoDBConnection()\"",
-    "test:models": "node backend/testModels.js",
-    "test:env": "node backend/testEnv.js",
-    "test:aws": "node backend/testAws.js"
+    "test:models": "node backend/utils/testModels.js",
+    "test:env": "node backend/utils/testEnv.js"
   },
   "repository": {
     "type": "git",

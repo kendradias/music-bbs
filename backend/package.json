@@ -5,7 +5,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "backend": "nodemon server.js"
+    "backend": "nodemon server.js",
+    "test:db": "node -e \"require('./utils/helper').testDynamoDBConnection()\"",
+    "test:models": "node utils/testModels.js",
+    "test:env": "node utils/testEnv.js"
   },
   "keywords": [],
   "author": "",
