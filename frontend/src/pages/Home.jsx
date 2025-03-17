@@ -1,46 +1,77 @@
-import React, { useState, useEffect } from 'react'
-import styles from './Home.module.css'
+import React, { useState, useEffect } from "react";
+import styles from "./Home.module.css";
 
 function Home() {
-  const [discussions, setDiscussions] = useState([])
+  // Sample discussion data
+  const [discussions, setDiscussions] = useState([
+    {
+      id: 1,
+      title: "Bohemian Rhapsody",
+      artist: "Queen",
+      comments: 23,
+      author: "user123",
+      timeAgo: "2h ago",
+    },
+    {
+      id: 2,
+      title: "Blinding Lights",
+      artist: "The Weeknd",
+      comments: 15,
+      author: "music_fan",
+      timeAgo: "5h ago",
+    },
+    {
+      id: 3,
+      title: "Imagine",
+      artist: "John Lennon",
+      comments: 31,
+      author: "beatles_lover",
+      timeAgo: "1d ago",
+    },
+  ]);
 
   useEffect(() => {
-    // TODO: Fetch discussions from backend API
-  }, [])
+    // In a real app, you would fetch discussions from backend API
+    // For now, we're using the static data initialized above
+  }, []);
 
   return (
-    <div className="container">
-      <div className={`text-center p-5 mb-5 shadow-sm ${styles.hero}`}>
-        <h1 className="fw-bold mb-3">Welcome to Music BBS</h1>
-        <p className="text-muted mb-0">
-          Discover and discuss your favorite music with others
-        </p>
+    <div className={styles.homePage}>
+      <div className={styles.heroSection}>
+        <h1>Welcome to BBS Music </h1>
+        <p>Find and discuss your favorite music with fellow enthusiasts</p>
       </div>
-      <h4 className="mb-3">Recent Discussions</h4>
-      {discussions.length === 0 ? (
-        <p className="text-muted">No discussions yet.</p>
-      ) : (
-        <div className="row">
-          {discussions.map((item) => (
-            <div className="col-md-4 mb-4" key={item.id}>
-              <div className={`card shadow-sm h-100 ${styles.card}`}>
-                <div className="card-body d-flex flex-column">
-                  <h5 className="card-title fw-bold">{item.title}</h5>
-                  <p className="card-text text-muted">{item.comments} comments</p>
-                  <p className="card-text">
-                    <small className="text-muted">Started by {item.author}</small>
-                  </p>
-                  <div className="mt-auto">
-                    <button className="btn btn-primary btn-sm">View Thread</button>
-                  </div>
-                </div>
+
+      <div className={styles.contentSection}>
+        <h2>Recent Discussions</h2>
+
+        <div className={styles.discussionsGrid}>
+          {discussions.map((discussion) => (
+            <div className={styles.discussionCard} key={discussion.id}>
+              <h3>{discussion.title}</h3>
+              <p className={styles.artistName}>{discussion.artist}</p>
+              <div className={styles.discussionMeta}>
+                <p>{discussion.comments} comments</p>
+                <p>
+                  Started by {discussion.author} • {discussion.timeAgo}
+                </p>
               </div>
+              <button className={styles.viewButton}>View Discussion</button>
             </div>
           ))}
         </div>
-      )}
+
+        <div className={styles.exploreMore}>
+          <h3>Discover More Music</h3>
+          <p>
+            Search for your favorite artists and songs to join or start
+            discussions
+          </p>
+          <button className={styles.exploreButton}>Explore Music</button>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

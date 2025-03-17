@@ -1,7 +1,122 @@
 .footer {
-    text-align: center;
-    padding: 1rem 0;
-    margin-top: 2rem;
-    background-color: #f1f1f1;
+  background-color: #303f9f;
+  color: white;
+  padding: 40px 20px 20px;
+  margin-top: 40px;
+}
+
+.footerContent {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto 30px;
+}
+
+.footerSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.logoSection {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.appleMusicLogo {
+  margin-right: 10px;
+}
+
+.footerTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.footerDescription {
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 0;
+  line-height: 1.5;
+}
+
+.footerSection h4 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.footerSection h4::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 40px;
+  height: 2px;
+  background-color: #ff4081;
+}
+
+.footerLinks,
+.contactInfo {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footerLinks li,
+.contactInfo li {
+  margin-bottom: 10px;
+}
+
+.footerLinks a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footerLinks a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.contactInfo i {
+  margin-right: 10px;
+  width: 16px;
+  text-align: center;
+}
+
+.footerBottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.copyright,
+.apiCredit {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.apiCredit a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.apiCredit a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .footerBottom {
+    flex-direction: column;
+    gap: 10px;
   }
-  
+}
