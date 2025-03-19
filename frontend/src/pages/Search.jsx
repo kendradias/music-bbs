@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Search.module.css";
 
 function Search() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [attribute, setAttribute] = useState("songTerm");
+  const navigate = useNavigate();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -19,26 +21,63 @@ function Search() {
     fetch(apiUrl)
       .then((res) => {
         console.log("[DEBUG] Received response status:", res.status);
-        return res.text();
+        return res.json();
       })
-      .then((text) => {
-        console.log("[DEBUG] Raw response text:", text.substring(0, 200));
-        try {
-          const data = JSON.parse(text);
-          console.log("[DEBUG] Parsed JSON response:", data);
-          if (data.results && data.results.length > 0) {
-            setResults(data.results);
-          } else {
-            setResults([]);
-          }
-        } catch (err) {
-          console.error("[ERROR] JSON parse error:", err);
-          alert("Error occurred during search. Check console for details.");
+      .then((data) => {
+        console.log("[DEBUG] Parsed JSON response:", data);
+        if (data.results && data.results.length > 0) {
+          setResults(data.results);
+        } else {
+          setResults([]);
         }
       })
       .catch((error) => {
         console.error("[ERROR] Fetch error:", error);
         alert("Error occurred during search.");
+      });
+  };
+
+  const handleDiscuss = (track) => {
+    const songName = track.trackName || track.collectionName || track.artistName;
+    const trackId = track.trackId;
+    const trackUrl =
+      track.trackViewUrl || (trackId ? `https://itunes.apple.com/lookup?id=${trackId}` : "");
+    const artworkUrl = track.artworkUrl100
+      ? track.artworkUrl100.replace("100x100bb", "300x300bb")
+      : "";
+
+    console.log("[DEBUG] handleDiscuss called with:", {
+      songName,
+      trackId,
+      trackUrl,
+      artworkUrl
+    });
+
+    fetch("/api/threads", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        songName: songName,
+        trackId: trackId,
+        trackUrl: trackUrl,
+        artworkUrl: artworkUrl,
+        handleName: "Anonymous"
+      })
+    })
+      .then((res) => {
+        console.log("[DEBUG] POST /api/threads status:", res.status);
+        return res.json();
+      })
+      .then((data) => {
+        console.log("[DEBUG] Created thread:", data);
+        if (data.error) {
+          alert("Failed to create thread: " + data.error);
+        } else {
+          navigate("/threads");
+        }
+      })
+      .catch(() => {
+        alert("Failed to create thread. Check console for details.");
       });
   };
 
@@ -97,7 +136,10 @@ function Search() {
                           {track.trackName || track.collectionName || track.artistName}
                         </h6>
                         <p className="mb-1 text-muted">{track.artistName || ""}</p>
-                        <button className="btn btn-sm btn-outline-secondary">
+                        <button
+                          className="btn btn-sm btn-outline-secondary"
+                          onClick={() => handleDiscuss(track)}
+                        >
                           Discuss
                         </button>
                       </div>

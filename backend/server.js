@@ -12,8 +12,11 @@ app.use(express.json());
 const searchRoutes = require('./routes/searchRoutes');
 app.use('/api/music', searchRoutes);
 
+const threadRoutes = require('./routes/threadRoutes');
+app.use('/api/threads', threadRoutes);
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`[DEBUG] Server is running on port ${PORT}`);
 });
