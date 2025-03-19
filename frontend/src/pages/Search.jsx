@@ -45,12 +45,14 @@ function Search() {
     const artworkUrl = track.artworkUrl100
       ? track.artworkUrl100.replace("100x100bb", "300x300bb")
       : "";
+    const artistName = track.artistName || "";
 
     console.log("[DEBUG] handleDiscuss called with:", {
       songName,
       trackId,
       trackUrl,
-      artworkUrl
+      artworkUrl,
+      artistName
     });
 
     fetch("/api/threads", {
@@ -61,7 +63,7 @@ function Search() {
         trackId: trackId,
         trackUrl: trackUrl,
         artworkUrl: artworkUrl,
-        handleName: "Anonymous"
+        artistName: artistName
       })
     })
       .then((res) => {
