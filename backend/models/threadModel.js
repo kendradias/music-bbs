@@ -1,10 +1,10 @@
-const { documentClient } = require('../config/dynamodb');
-const { v4: uuidv4 } = require('uuid');
+const { documentClient } = require("../config/dynamodb");
+const { v4: uuidv4 } = require("uuid");
 
-const TABLE_NAME = process.env.DYNAMODB_THREADS_TABLE || 'music-bbs-threads';
+const TABLE_NAME = process.env.DYNAMODB_THREADS_TABLE || "music-bbs-threads";
 
 const ThreadModel = {
-  async createThread({ songName, trackId, trackUrl, artworkUrl, handleName }) {
+  async createThread({ songName, trackId, trackUrl, artworkUrl, artistName }) {
     const threadId = uuidv4();
     const timestamp = new Date().toISOString();
     const params = {
@@ -15,7 +15,7 @@ const ThreadModel = {
         trackUrl,
         artworkUrl,
         songName,
-        handleName,
+        artistName,
         createdAt: timestamp,
         updatedAt: timestamp,
         deletedAt: null

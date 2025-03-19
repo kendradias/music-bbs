@@ -1,5 +1,5 @@
-const ThreadModel = require('../models/threadModel');
-const CommentModel = require('../models/commentModel');
+const ThreadModel = require("../models/threadModel");
+const CommentModel = require("../models/commentModel");
 
 exports.getAllThreads = async (req, res) => {
   console.log("[DEBUG] getAllThreads called");
@@ -32,7 +32,7 @@ exports.getThreadById = async (req, res) => {
 exports.createThread = async (req, res) => {
   console.log("[DEBUG] createThread called with body:", req.body);
   try {
-    const { songName, trackId, trackUrl, artworkUrl, handleName } = req.body;
+    const { songName, trackId, trackUrl, artworkUrl, artistName } = req.body;
     if (!songName || !trackId || !artworkUrl) {
       console.error("[ERROR] Missing required fields");
       return res.status(400).json({ error: "songName, trackId, and artworkUrl are required" });
@@ -42,7 +42,7 @@ exports.createThread = async (req, res) => {
       trackId,
       trackUrl,
       artworkUrl,
-      handleName: handleName || "Anonymous"
+      artistName: artistName || ""
     });
     console.log("[DEBUG] Successfully created thread:", thread);
     return res.status(201).json(thread);

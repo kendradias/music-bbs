@@ -39,17 +39,14 @@ function ThreadBoard() {
   const handleAddComment = (threadId) => {
     const content = commentContents[threadId] || "";
     const name = commentNames[threadId] || "Anonymous";
-
     if (!content.trim()) {
       alert("Please enter a comment.");
       return;
     }
-
     const body = {
       content: content,
       handleName: name
     };
-
     fetch(`/api/threads/${threadId}/comments`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -93,10 +90,7 @@ function ThreadBoard() {
                   <div>
                     <h5 className="card-title fw-bold">{thread.songName}</h5>
                     <p className="card-text">
-                      <strong>trackId:</strong> {thread.trackId}
-                    </p>
-                    <p className="card-text">
-                      <strong>Handle Name:</strong> {thread.handleName}
+                      <strong>Artist:</strong> {thread.artistName}
                     </p>
                     <p className="card-text">
                       <small className="text-muted">
