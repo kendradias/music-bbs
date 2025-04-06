@@ -3,37 +3,79 @@ import styles from "./ThreadBoard.module.css";
 
 function ThreadBoard() {
   const [threads, setThreads] = useState([]);
+  const [filteredThreads, setFilteredThreads] = useState([]);
   const [commentContents, setCommentContents] = useState({});
   const [commentNames, setCommentNames] = useState({});
   const [refreshKey, setRefreshKey] = useState(0);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const threadsPerPage = 5;
 
   useEffect(() => {
     fetchThreads();
   }, []);
 
-  const fetchThreads = () => {
-    fetch("/api/threads")
-      .then((res) => res.json())
-      .then((data) => {
-        setThreads(data);
-      })
-      .catch(() => {
-        console.error("[ERROR] Failed to fetch threads");
-      });
+  useEffect(() => {
+    filterThreads();
+  }, [threads, searchQuery]);
+
+  const fetchThreads = async () => {
+    try {
+      const res = await fetch("/api/threads");
+      const data = await res.json();
+      const threadsWithLatestUpdate = await Promise.all(
+        data.map(async (thread) => {
+          let latestDate = new Date(thread.updatedAt);
+          try {
+            const resComments = await fetch(`/api/threads/${thread.threadId}/comments`);
+            const comments = await resComments.json();
+            if (comments && comments.length > 0) {
+              const latestCommentDate = comments.reduce((max, comment) => {
+                const commentDate = new Date(comment.updatedAt);
+                return commentDate > max ? commentDate : max;
+              }, new Date(0));
+              if (latestCommentDate > latestDate) {
+                latestDate = latestCommentDate;
+              }
+            }
+          } catch (e) {
+            console.error(`Error fetching comments for thread ${thread.threadId}:`, e);
+          }
+          return { ...thread, latestUpdate: latestDate };
+        })
+      );
+      const sortedThreads = threadsWithLatestUpdate.sort((a, b) => b.latestUpdate - a.latestUpdate);
+      setThreads(sortedThreads);
+    } catch (error) {
+      console.error("[ERROR] Failed to fetch threads", error);
+    }
   };
 
+  const filterThreads = () => {
+    let filtered = threads;
+    if (searchQuery.trim() !== "") {
+      const lowerQuery = searchQuery.toLowerCase();
+      filtered = threads.filter(
+        (thread) =>
+          thread.songName.toLowerCase().includes(lowerQuery) ||
+          thread.artistName.toLowerCase().includes(lowerQuery)
+      );
+    }
+    setFilteredThreads(filtered);
+    setCurrentPage(1);
+  };
+
+  const indexOfLastThread = currentPage * threadsPerPage;
+  const indexOfFirstThread = indexOfLastThread - threadsPerPage;
+  const currentThreads = filteredThreads.slice(indexOfFirstThread, indexOfLastThread);
+  const totalPages = Math.ceil(filteredThreads.length / threadsPerPage);
+
   const handleCommentChange = (threadId, value) => {
-    setCommentContents((prev) => ({
-      ...prev,
-      [threadId]: value
-    }));
+    setCommentContents((prev) => ({ ...prev, [threadId]: value }));
   };
 
   const handleNameChange = (threadId, value) => {
-    setCommentNames((prev) => ({
-      ...prev,
-      [threadId]: value
-    }));
+    setCommentNames((prev) => ({ ...prev, [threadId]: value }));
   };
 
   const handleAddComment = (threadId) => {
@@ -43,10 +85,7 @@ function ThreadBoard() {
       alert("Please enter a comment.");
       return;
     }
-    const body = {
-      content: content,
-      handleName: name
-    };
+    const body = { content, handleName: name };
     fetch(`/api/threads/${threadId}/comments`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -58,10 +97,7 @@ function ThreadBoard() {
           alert("Failed to create comment: " + data.error);
         } else {
           setRefreshKey((prev) => prev + 1);
-          setCommentContents((prev) => ({
-            ...prev,
-            [threadId]: ""
-          }));
+          setCommentContents((prev) => ({ ...prev, [threadId]: "" }));
         }
       })
       .catch(() => {
@@ -69,13 +105,27 @@ function ThreadBoard() {
       });
   };
 
+  const handlePageChange = (newPage) => {
+    if (newPage < 1 || newPage > totalPages) return;
+    setCurrentPage(newPage);
+  };
+
   return (
     <div className={styles.threadBoard}>
       <h2 className="fw-bold mb-4">Threads</h2>
-      {threads.length === 0 ? (
+      <div className="mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search threads by song or artist"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
+      {currentThreads.length === 0 ? (
         <p className="text-muted">No threads available.</p>
       ) : (
-        threads.map((thread) => {
+        currentThreads.map((thread) => {
           const threadId = thread.threadId;
           return (
             <div className="card mb-3 shadow-sm" key={threadId}>
@@ -94,7 +144,7 @@ function ThreadBoard() {
                     </p>
                     <p className="card-text">
                       <small className="text-muted">
-                        Created at: {thread.createdAt}
+                        Updated at: {thread.latestUpdate.toISOString()}
                       </small>
                     </p>
                   </div>
@@ -126,6 +176,27 @@ function ThreadBoard() {
             </div>
           );
         })
+      )}
+      {totalPages > 1 && (
+        <div className="d-flex justify-content-center align-items-center mt-4">
+          <button
+            className="btn btn-secondary btn-sm me-2"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Prev
+          </button>
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            className="btn btn-secondary btn-sm ms-2"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
       )}
     </div>
   );
