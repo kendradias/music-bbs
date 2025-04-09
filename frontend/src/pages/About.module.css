@@ -135,11 +135,22 @@
 
 .memberAvatar {
   width: 100px;
-  height: 100px;
-  background-color: #e8eaf6;
+  height: 120px;
   border-radius: 50%;
   margin: 0 auto 15px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.memberAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
 
 .teamMember h3 {
   color: #3f51b5;

@@ -3,10 +3,30 @@ import styles from "./About.module.css";
 
 function About() {
   const teamMembers = [
-    { id: 1, name: "Kendra Dias", role: "Backend Developer" },
-    { id: 2, name: "Yoshito Siguyama", role: "Backend Developer" },
-    { id: 3, name: "Parmvir ", role: "UI/UX Designer" },
-    { id: 4, name: "Anton Kupriianov ", role: "Frontend Developer" },
+    { 
+      id: 1, 
+      name: "Kendra Dias", 
+      role: "Backend Developer", 
+      imageUrl: "https://cloud-group-yoshi.s3.us-west-2.amazonaws.com/portrait1.png"
+    },
+    { 
+      id: 2, 
+      name: "Anton Kupriianov", 
+      role: "Frontend Developer", 
+      imageUrl: "https://cloud-group-yoshi.s3.us-west-2.amazonaws.com/portrait2.png"
+    },
+    { 
+      id: 3, 
+      name: "Parmvir", 
+      role: "UI/UX Designer", 
+      imageUrl: "https://cloud-group-yoshi.s3.us-west-2.amazonaws.com/portrait3.png"
+    },
+    { 
+      id: 4, 
+      name: "Yoshito Siguyama", 
+      role: "Backend Developer", 
+      imageUrl: "https://cloud-group-yoshi.s3.us-west-2.amazonaws.com/portrait4.png"
+    }
   ];
 
   return (
@@ -21,8 +41,7 @@ function About() {
             BBS Music is a modern take on the classic Bulletin Board System,
           </p>
           <p>
-            allowing music enthusiasts to discover and discuss their favorite
-            songs.
+            allowing music enthusiasts to discover and discuss their favorite songs.
           </p>
           <p>Search for music through the iTunes API and start conversations</p>
           <p>with fellow music lovers around the world.</p>
@@ -60,7 +79,11 @@ function About() {
           <div className={styles.teamGrid}>
             {teamMembers.map((member) => (
               <div key={member.id} className={styles.teamMember}>
-                <div className={styles.memberAvatar}></div>
+                <img
+                  src={member.imageUrl}
+                  alt={`${member.name}'s avatar`}
+                  className={styles.memberAvatar}
+                />
                 <h3>{member.name}</h3>
                 <p>{member.role}</p>
               </div>
