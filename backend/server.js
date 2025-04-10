@@ -15,7 +15,7 @@ app.use('/api/music', searchRoutes);
 const threadRoutes = require('./routes/threadRoutes');
 app.use('/api/threads', threadRoutes);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5173;
 
 app.listen(PORT, () => {
   console.log(`[DEBUG] Server is running on port ${PORT}`);
